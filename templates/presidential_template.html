@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Little Glue - Eleições Presidenciais</title>
+</head>
+<style type="text/css">
+    body {
+        background-color: {{ data.colors.background_color }};
+    }
+    .position-name {
+        color: {{ data.colors.font_color }};
+        font-family: 'Courier New', Courier, Helvetica, monospace;
+        font-size: {{ data.size.font_size_name or "18" }}px;
+        display: inline;
+    }
+    .candidate-name {
+        color: {{ data.colors.font_color }};
+        font-family: 'Courier New', Courier, Helvetica, monospace;
+        font-size: {{ data.size.font_size_name or "18" }}px;
+        font-weight: {{ data.size.font_weight or "bold" }};
+        display: inline;
+    }
+    .candidate-number {
+        color: {{ data.colors.font_color }};
+        font-family: 'Courier New', Courier, Helvetica, monospace;
+        font-size: {{ data.size.font_size_number or "42" }}px;
+        font-weight: {{ data.size.font_weight or "bold" }};
+        letter-spacing: {{ data.size.spacing or 20 }}px;
+        border: 5px solid {{ data.colors.font_color }};
+        border_radius: 5px;
+    }
+</style>
+<body>
+<div>
+    {% for candidate in data.candidates.federal_deputy %}
+        <p class="position-name">Deputado Federal </p> <p class="candidate-name">{{ candidate.name }}</p>
+        <br><br>
+        {% for char in candidate.number %}
+            <span class="candidate-number">{{ char }}</span>
+        {% endfor %}
+        <br><br>
+    {% endfor %}
+
+    {% for candidate in data.candidates.state_deputy %}
+        <p class="position-name">Deputado Estadual </p> <p class="candidate-name">{{ candidate.name }}</p>
+        <br><br>
+        {% for char in candidate.number %}
+            <span class="candidate-number">{{ char }}</span>
+        {% endfor %}
+        <br><br>
+    {% endfor %}
+
+    {% for candidate in data.candidates.senator %}
+        <p class="position-name">Senador </p> <p class="candidate-name">{{ candidate.name }}</p>
+        <br><br>
+        {% for char in candidate.number %}
+            <span class="candidate-number">{{ char }}</span>
+        {% endfor %}
+        <br><br>
+    {% endfor %}
+
+    <p class="position-name">Governador </p> <p class="candidate-name">{{ data.candidates.governor.name }}</p>
+    <br><br>
+    {% for char in data.candidates.governor.number %}
+        <span class="candidate-number">{{ char }}</span>
+    {% endfor %}
+    <br><br>
+
+    <p class="position-name">Presidente </p> <p class="candidate-name">{{ data.candidates.president.name }}</p>
+    <br><br>
+    {% for char in data.candidates.president.number %}
+        <span class="candidate-number">{{ char }}</span>
+    {% endfor %}
+    <br><br>
+</div>
+</body>
+</html>

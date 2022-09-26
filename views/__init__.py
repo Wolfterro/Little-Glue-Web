@@ -1,0 +1,1 @@
+from views.views import generate_view
