@@ -39,7 +39,7 @@ make install
 ===!!! E pronto, basta rodar o projeto usando o comando: make run
 ```
 
-E pronto! Você poderá rodar o projeto rodando apenas o último comando do passo três!
+E pronto! Você poderá rodar o projeto rodando apenas o último comando do passo três! Dessa forma, um servidor uvicorn ficará ligado escutando as requisições em seu localhost, na porta 8000:
 ```shell
 make run
 ```
@@ -88,4 +88,58 @@ curl --location --request POST 'http://localhost:8000/generate/' \
 }'
 ```
 
+A resposta para esse endpoint, caso a geração da colinha tenha sido realizada com sucesso, será esta:
+```json
+{
+  "file":"/generated_glues/presidential_2022-09-26T00:21:05.pdf"
+}
+```
+
+Para eleições municipais, a requisição de exemplo é:
+```shell
+curl --location --request POST 'http://localhost:8000/generate/' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+  "candidates_data": {
+    "alderman": [
+      {
+        "number": "99999",
+        "name": "João da Feira"
+      }
+    ],
+    "prefect": {
+      "number": "99",
+      "name": "Professor Pereira"
+    }
+  },
+  "color_scheme": ["#ffffff", "#000000"],
+  "export_format": "jpg",
+  "font_configs": [12, 32, 15, "bold"],
+  "election_type": "municipal"
+}'
+```
+
+A resposta para esse endpoint, caso a geração da colinha tenha sido realizada com sucesso, será esta:
+```json
+{
+  "file":"/generated_glues/municipal_2022-09-26T00:21:05.jpg"
+}
+```
+
 Repare que o JSON enviado **é o mesmo utilizado pelo programa em sua versão de terminal**, com os mesmos campos e os mesmos valores utilizados no exemplo do outro repositório. Recomendo que dê uma olhada no repositório **[Little Glue](https://www.github.com/Wolfterro/Little-Glue)** caso tenha alguma dúvida em relação ao JSON utilizado.
+
+O campo **file** aponta para o path onde está localizado a colinha gerada, portanto a URL completa seria algo como: **`http://localhost:8000/generated_glues/presidential_2022-09-26T00:21:05.pdf`**
+
+## Exemplos de Colinhas
+Abaixo estão alguns exemplos, gerados com os JSON acima. Lembrando que é possível customizar o esquema de cores (referenciados no campo **color_scheme**) e fontes (no campo **font_configs**).
+
+#### Eleições Presidenciais
+<img src="https://github.com/Wolfterro/Little-Glue/raw/master/examples/presidential_2022-09-25T04:03:31.jpg" />
+
+#### Eleições Municipais
+<img src="https://github.com/Wolfterro/Little-Glue/raw/master/examples/municipal_2022-09-25T04:03:56.jpg" />
+
+## Documentação
+Uma documentação simples em **Swagger** e **ReDoc** do projeto podem ser consultadas diretamente pelos endpoints abaixo através do navegador enquanto estiver rodando a aplicação:
+- Swagger: **`http://localhost:8000/docs/`**
+- ReDoc: **`http://localhost:8000/redoc/`**
