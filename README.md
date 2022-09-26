@@ -6,7 +6,7 @@ Aquele programinha maroto pra fazer aquela colinha marota pras eleições! Vers�
 ## Descrição
 Bom, devido as últimas decisões do Tribunal Superior Eleitoral (TSE) que desfavorecem o uso de celulares nas seções de votação, decidi criar este programa para as pessoas que possuem dificuldades de memorizar os vários números de diversos candidatos nas eleições presidenciais e municipais que ocorrerem.
 
-É bem provável também que muita gente já tenha recebido o famoso "santinho" de seus candidatos ou já tenha preenchido os números com a famosa dupla Papel e Caneta, mas pensando em utilizar a mais alta tecnologia de ponta do Terminal do GNU/Linux aliado a linguagem Python de programação, decidi criar este pequeno programinha para gerar as famosas "colinhas" que podem ser usadas como guia na hora da votação. Você pode criar colinhas para você, seus amigos, parentes, ou qualquer outra pessoa que tenha interesse em ter uma colinha impressa com os candidatos que a pessoa quiser.
+É bem provável também que muita gente já tenha recebido o famoso "santinho" de seus candidatos ou já tenha preenchido os números com a famosa dupla Papel e Caneta, mas pensando em utilizar a mais alta tecnologia de ponta dos frameworks Web aliado a linguagem Python de programação, decidi criar este pequeno programinha para gerar as famosas "colinhas" que podem ser usadas como guia na hora da votação. Você pode criar colinhas para você, seus amigos, parentes, ou qualquer outra pessoa que tenha interesse em ter uma colinha impressa com os candidatos que a pessoa quiser.
 
 **Este programa consegue preencher, salvar e gerar uma colinha em formato HTML, PDF ou imagem JPG para que você possa imprimir e levar no dia da votação.**
 
@@ -43,3 +43,49 @@ E pronto! Você poderá rodar o projeto rodando apenas o último comando do pass
 ```shell
 make run
 ```
+
+## Exemplos de Uso
+Diferente da outra versão, que utiliza o Terminal do GNU/Linux, esta versão utiliza a framework web FastAPI, que similar ao Flask e ao Django, fornece endpoints em API Rest. Portanto há apenas uma forma de utilização que é fazendo uma requisição POST para o endpoint de geração de colinhas.
+
+No exemplo abaixo, utilizamos o comando cURL para enviar uma requisição de geração de uma colinha para eleições presidenciais. O link que será gerado irá apontar para o arquivo PDF com a nossa colinha.
+
+```shell
+curl --location --request POST 'http://localhost:8000/generate/' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+  "candidates_data": {
+    "federal_deputy": [
+      {
+        "number": "9999",
+        "name": "João da Feira"
+      }
+    ],
+    "state_deputy": [
+      {
+        "number": "99999",
+        "name": "Marcos do Gás"
+      }
+    ],
+    "senator": [
+      {
+        "number": "999",
+        "name": "Toninho da Padaria"
+      }
+    ],
+    "governor": {
+      "number": "99",
+      "name": "Delegado José"
+    },
+    "president": {
+      "number": "99",
+      "name": "Professor Pereira"
+    }
+  },
+  "color_scheme": ["#ffffff", "#000000"],
+  "export_format": "pdf",
+  "font_configs": [12, 32, 15, "bold"],
+  "election_type": "presidential"
+}'
+```
+
+Repare que o JSON enviado **é o mesmo utilizado pelo programa em sua versão de terminal**, com os mesmos campos e os mesmos valores utilizados no exemplo do outro repositório. Recomendo que dê uma olhada no repositório **[Little Glue](https://www.github.com/Wolfterro/Little-Glue)** caso tenha alguma dúvida em relação ao JSON utilizado.
